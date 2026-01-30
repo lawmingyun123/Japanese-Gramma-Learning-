@@ -19,8 +19,12 @@
    - **Repository**: `lawmingyun123/Japanese-Gramma-Learning-`
    - **Branch**: `main`
    - **Main file path**: `app.py`
-5. 在 **Advanced settings** 中設定環境變數：
-   - **GEMINI_API_KEY**: 您的 Google Gemini API Key
+5. 在 **Advanced settings** 中設定環境變數（Secrets）：
+   ```toml
+   GEMINI_API_KEY = "your_gemini_api_key_here"
+   AUTH_PASSWORD = "your_chosen_password"
+   ```
+   ⚠️ **重要**：`AUTH_PASSWORD` 是保護系統的登入密碼，請設定一個強密碼
 6. 點擊 **"Deploy"**
 
 ## 🛠️ 本地運行
@@ -29,8 +33,9 @@
 # 安裝依賴
 pip install -r requirements.txt
 
-# 設定 API Key (.env 檔案)
-echo "GEMINI_API_KEY=your_api_key_here" > .env
+# 設定 Secrets (.streamlit/secrets.toml)
+cp .streamlit/secrets.toml.example .streamlit/secrets.toml
+# 編輯 secrets.toml 並填入您的 API Key 和密碼
 
 # 啟動應用
 streamlit run app.py
@@ -38,7 +43,8 @@ streamlit run app.py
 
 ## 📖 使用方式
 
-1. 在側邊欄輸入 Gemini API Key
+1. **登入**：輸入您設定的密碼
+2. 在側邊欄輸入 Gemini API Key（本地開發時可省略）
 2. 點擊 **「開始複習」**
 3. 系統會依難度 (N5→N1) 準備題目
 4. 翻譯中文句子成日文
