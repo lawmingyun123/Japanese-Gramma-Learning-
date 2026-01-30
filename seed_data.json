@@ -1,0 +1,82 @@
+[
+    {
+        "level": "N5",
+        "concept": "～は～です",
+        "meaning": "X 是 Y",
+        "structure": "名詞 + は + 名詞/形容詞 + です",
+        "explanation": "助詞「は」標示句子的主題。「です」是斷定助動詞，表示禮貌的斷定。",
+        "tags": "助詞, 基礎, 判斷句"
+    },
+    {
+        "level": "N5",
+        "concept": "～か",
+        "meaning": "疑問詞",
+        "structure": "句子 + か",
+        "explanation": "在句尾加上「か」表示疑問。相當於中文的「嗎」或問號。",
+        "tags": "助詞, 疑問句"
+    },
+    {
+        "level": "N5",
+        "concept": "～の",
+        "meaning": "所有 / 修飾",
+        "structure": "名詞1 + の + 名詞2",
+        "explanation": "表示所屬關係（相當於中文的「的」），或用前面的名詞來修飾後面的名詞。",
+        "tags": "助詞, 所有格"
+    },
+    {
+        "level": "N5",
+        "concept": "～も",
+        "meaning": "也 / 亦",
+        "structure": "名詞 + も",
+        "explanation": "取代「は」、「が」或「を」，表示「也」的意思。",
+        "tags": "助詞, 並列"
+    },
+    {
+        "level": "N5",
+        "concept": "～に～があります",
+        "meaning": "在...有... (非生物)",
+        "structure": "場所 + に + 物體 + が + あります",
+        "explanation": "表示某個場所存在著某個「非生物」（如物品、植物等）。",
+        "tags": "存在句, 動詞"
+    },
+    {
+        "level": "N5",
+        "concept": "～に～がいます",
+        "meaning": "在...有... (生物)",
+        "structure": "場所 + に + 生物 + が + います",
+        "explanation": "表示某個場所存在著某個「有生命的物體」（如人、動物）。",
+        "tags": "存在句, 動詞"
+    },
+    {
+        "level": "N5",
+        "concept": "V-ます形",
+        "meaning": "動詞叮嚀語 (肯定)",
+        "structure": "動詞ます形",
+        "explanation": "動詞的標準禮貌形式。用於對長輩、陌生人或正式場合的對話。",
+        "tags": "動詞, 活用"
+    },
+    {
+        "level": "N5",
+        "concept": "V-ません",
+        "meaning": "動詞叮嚀語 (否定)",
+        "structure": "動詞ます形去ます + ません",
+        "explanation": "動詞的禮貌否定形式。意思為「不...」或「不會...」。",
+        "tags": "動詞, 活用, 否定"
+    },
+    {
+        "level": "N5",
+        "concept": "～を",
+        "meaning": "受詞標記",
+        "structure": "受詞 + を + 他動詞",
+        "explanation": "標示動作的直接接受者（受詞）。",
+        "tags": "助詞"
+    },
+    {
+        "level": "N5",
+        "concept": "～へ",
+        "meaning": "方向標記 (往/去)",
+        "structure": "目的地 + へ + 移動動詞",
+        "explanation": "表示移動的方向。強調的是「方向」而非到達點。",
+        "tags": "助詞, 移動"
+    }
+]
