@@ -5,6 +5,7 @@ import os
 import time
 import uuid
 import shutil
+from datetime import datetime
 import audio_manager
 from database_manager import DatabaseManager
 from srs_engine import SRSEngine
@@ -40,9 +41,10 @@ def check_password():
     
     def password_entered():
         """Checks whether a password entered by the user is correct."""
-        if st.session_state["password"] == st.secrets.get("AUTH_PASSWORD", ""):
+        if st.session_state.get("password") == st.secrets.get("AUTH_PASSWORD", ""):
             st.session_state["password_correct"] = True
-            del st.session_state["password"]  # Don't store password
+            if "password" in st.session_state:
+                del st.session_state["password"]  # Don't store password
         else:
             st.session_state["password_correct"] = False
 
@@ -81,6 +83,41 @@ with st.sidebar:
         os.environ["GEMINI_API_KEY"] = api_key
     
     menu = st.radio("功能選單", ["📚 學習與複習", "📊 學習數據", "🗂️ 文法庫"])
+    
+    st.divider()
+    
+    # Backup Section
+    st.write("### 💾 資料備份")
+    
+    # Export Progress
+    if st.button("📤 匯出學習進度"):
+        export_data = st.session_state.db.export_progress()
+        export_json = json.dumps(export_data, ensure_ascii=False, indent=2)
+        
+        st.download_button(
+            label="⬇️ 下載 JSON 檔案",
+            data=export_json,
+            file_name=f"japanese_progress_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
+            mime="application/json"
+        )
+        st.success(f"✅ 已準備 {export_data['total_items']} 筆記錄")
+    
+    # Import Progress
+    uploaded_file = st.file_uploader("📥 匯入學習進度", type=['json'])
+    if uploaded_file is not None:
+        try:
+            import_data = json.load(uploaded_file)
+            result = st.session_state.db.import_progress(import_data)
+            
+            st.success(f"""
+            ✅ 匯入完成！
+            - 新增：{result['added']} 筆
+            - 更新：{result['updated']} 筆
+            - 跳過：{result['skipped']} 筆
+            """)
+            st.rerun()
+        except Exception as e:
+            st.error(f"❌ 匯入失敗：{e}")
     
     st.divider()
     
