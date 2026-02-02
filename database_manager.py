@@ -28,7 +28,8 @@ class DatabaseManager:
                 structure TEXT,
                 explanation TEXT,
                 tags TEXT,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(jlpt_level, grammar_concept)
             )
         ''')
 

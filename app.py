@@ -133,35 +133,41 @@ with st.sidebar:
 if 'db' not in st.session_state:
     st.session_state.db = DatabaseManager()
     
-    # Check for seed data
-    # Check for seed data and import
+    # Check for seed data and import (only if database is empty)
     try:
-        # Define seed files to look for
-        seed_files = [
-            'seed_data.json', 
-            'grammar_n4.json', 
-            'grammar_n3.json', 
-            'grammar_n2.json', 
-            'grammar_n1.json'
-        ]
+        # Check if database already has data
+        conn = st.session_state.db.get_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT COUNT(*) FROM grammar_points')
+        existing_count = cursor.fetchone()[0]
+        conn.close()
         
-        imported_count = 0
-        for filename in seed_files:
-            seed_path = os.path.join(os.path.dirname(__file__), filename)
-            if os.path.exists(seed_path):
-                with open(seed_path, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    for item in data:
-                        st.session_state.db.add_grammar_point(
-                            item['level'], item['concept'], item['meaning'], 
-                            item['structure'], item['explanation'], item.get('tags', '')
-                        )
-                    imported_count += 1
-        
-        if imported_count > 0:
-             # Only show toast if actually imported something new? 
-             # DatabaseManager.add_grammar_point handles duplicates now, so safe to run.
-             pass 
+        # Only import if database is empty
+        if existing_count == 0:
+            # Define seed files to look for
+            seed_files = [
+                'seed_data.json', 
+                'grammar_n4.json', 
+                'grammar_n3.json', 
+                'grammar_n2.json', 
+                'grammar_n1.json'
+            ]
+            
+            imported_count = 0
+            for filename in seed_files:
+                seed_path = os.path.join(os.path.dirname(__file__), filename)
+                if os.path.exists(seed_path):
+                    with open(seed_path, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        for item in data:
+                            st.session_state.db.add_grammar_point(
+                                item['level'], item['concept'], item['meaning'], 
+                                item['structure'], item['explanation'], item.get('tags', '')
+                            )
+                        imported_count += 1
+            
+            if imported_count > 0:
+                st.toast(f"✅ 已導入 {imported_count} 個文法資料檔", icon="📚")
 
     except Exception as e:
         st.error(f"資料庫匯入錯誤: {e}")
