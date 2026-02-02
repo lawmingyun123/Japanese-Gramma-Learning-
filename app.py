@@ -14,19 +14,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Cleanup temp audio on start (Only once per session)
-if 'cleanup_done' not in st.session_state:
-    if os.path.exists(audio_manager.OUTPUT_DIR):
-        try:
-            shutil.rmtree(audio_manager.OUTPUT_DIR)
-        except Exception:
-            pass # Ignore if file in use
-    os.makedirs(audio_manager.OUTPUT_DIR, exist_ok=True)
-    st.session_state.cleanup_done = True
-    
-# Ensure dir exists even if not first run (e.g. manual delete)
+# Ensure audio directory exists
 if not os.path.exists(audio_manager.OUTPUT_DIR):
     os.makedirs(audio_manager.OUTPUT_DIR, exist_ok=True)
+
 
 # Page Configuration
 st.set_page_config(
@@ -218,8 +209,13 @@ def prepare_session():
             ai_content = st.session_state.ai.generate_lesson_content(card)
             
             # Generate Audio for the Answer (Japanese)
-            audio_filename = f"{uuid.uuid4()}.mp3"
             target_sentence = ai_content.get('example_sentence', ai_content.get('question', ''))
+            
+            # Use content-based hash for filename (same sentence = same file)
+            import hashlib
+            audio_key = hashlib.md5(target_sentence.encode('utf-8')).hexdigest()
+            audio_filename = f"{audio_key}.mp3"
+            
             # Ensure we are generating for Japanese text
             audio_path = audio_manager.generate_audio(target_sentence, audio_filename)
             ai_content['audio_path'] = audio_path

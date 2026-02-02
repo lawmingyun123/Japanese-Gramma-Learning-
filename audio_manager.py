@@ -27,6 +27,11 @@ def generate_audio(text, filename, voice="ja-JP-NanamiNeural"):
     filepath = os.path.join(OUTPUT_DIR, filename)
     abs_filepath = os.path.abspath(filepath)
     
+    # Check if audio file already exists
+    if os.path.exists(abs_filepath):
+        print(f"[Audio] File already exists, reusing: {filename}")
+        return abs_filepath
+    
     print(f"[Audio] Request: {text[:20]} -> {filename}")
     
     try:
