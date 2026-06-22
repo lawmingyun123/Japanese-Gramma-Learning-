@@ -277,8 +277,8 @@ class DatabaseManager:
         for item in import_data.get('progress', []):
             try:
                 # Find grammar point
-                cursor.execute('SELECT id FROM grammar_points WHERE grammar_concept = ?', 
-                             (item['grammar_concept'],))
+                cursor.execute('SELECT id FROM grammar_points WHERE grammar_concept = ? AND jlpt_level = ?', 
+                             (item['grammar_concept'], item['jlpt_level']))
                 result = cursor.fetchone()
                 
                 if not result:
